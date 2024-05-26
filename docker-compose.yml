@@ -1,0 +1,36 @@
+version: "3.4"
+
+services:
+  api:
+    build: .
+    environment:
+      - MONGO_URL=mongodb://root:123456@mongodb:27017/ei-mulher-api?authSource=admin
+      - JWT_SECRET=f5d9e7a587e6efbbbb8efbe71e6dd1f42cd6f040
+      - JWT_TTL=3600
+      - ENCRYPTION_ROUNDS=10
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongo
+    links:
+      - mongo
+    networks:
+      - api_network
+    restart: on-failure
+
+  mongo:
+    container_name: mongodb
+    image: mongo:latest
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=123456
+      - MONGO_INITDB_DATABASE=ei-mulher-api
+    ports:
+      - "27017:27017"
+    networks:
+      - api_network
+    restart: on-failure
+
+networks:
+  api_network:
+    driver: bridge
