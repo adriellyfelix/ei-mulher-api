@@ -24,12 +24,16 @@ export class PostsService {
       .find({ userId: { $in: [...user.connections, userId] } })
       .sort({ createdAt: -1 })
       .limit(limit)
-      .skip(skip)
-      .populate(['likes', 'comments']);
+      .skip(skip);
   }
 
-  async create(createPostBody: CreatePostV1Dto): Promise<Post> {
-    const createdPost = new this.postModel(createPostBody);
+  async create(createPostBody: CreatePostV1Dto, userId: string): Promise<Post> {
+    const createdPost = new this.postModel({
+      ...createPostBody,
+      userId,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
 
     return createdPost.save();
   }
@@ -45,9 +49,13 @@ export class PostsService {
       throw new BadRequestException('Post not found');
     }
 
-    return this.postModel.findOneAndUpdate({ _id, userId }, updatePostBody, {
-      new: true,
-    });
+    return this.postModel.findOneAndUpdate(
+      { _id, userId, updatedAt: new Date() },
+      updatePostBody,
+      {
+        new: true,
+      },
+    );
   }
 
   async delete(_id: string, userId: string): Promise<Post> {

@@ -53,8 +53,12 @@ export class PostsController {
   @ApiBadRequestResponse({
     description: 'When validation fails',
   })
-  async create(@Body() createPostBody: CreatePostV1Dto) {
-    return this.postsService.create(createPostBody);
+  async create(
+    @Body() createPostBody: CreatePostV1Dto,
+    @Req() request: Request,
+  ) {
+    const userId = request['user']['sub'];
+    return this.postsService.create(createPostBody, userId);
   }
 
   @Put(':id')

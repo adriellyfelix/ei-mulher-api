@@ -1,7 +1,8 @@
-import { Body, Controller, HttpCode, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Post, Req } from '@nestjs/common';
 import { UsersService } from './users.service';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiBody,
   ApiCreatedResponse,
   ApiTags,
@@ -28,5 +29,17 @@ export class UsersController {
   @Public()
   async create(@Body() createUserBody: CreateUserV1Dto) {
     return this.usersService.create(createUserBody);
+  }
+
+  @Get('profile')
+  @HttpCode(200)
+  @ApiBearerAuth()
+  @ApiCreatedResponse({
+    description: 'When user profile is fetched as successfully',
+    type: CreateUserResponseV1Dto,
+  })
+  async getProfile(@Req() request: Request) {
+    const userId = request['user']['sub'];
+    return this.usersService.getProfile(userId);
   }
 }

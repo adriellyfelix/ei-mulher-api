@@ -22,11 +22,17 @@ export class UsersService {
     );
 
     createUserBody.password = hashedPassword;
-    delete createUserBody.confirmPassword;
 
-    const createdUser = new this.userModel(createUserBody);
+    let createdUser = await new this.userModel({
+      ...createUserBody,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    }).save();
 
-    return createdUser.save();
+    createdUser = createdUser.toObject();
+    delete createdUser.password;
+
+    return createdUser;
   }
 
   async findByEmail(email: string): Promise<User | null> {
@@ -35,5 +41,9 @@ export class UsersService {
 
   async findById(id: string): Promise<User | null> {
     return this.userModel.findById(id);
+  }
+
+  async getProfile(id: string): Promise<User | null> {
+    return this.userModel.findById(id).select('-password');
   }
 }

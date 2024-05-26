@@ -24,7 +24,11 @@ export class CommentsService {
   }
 
   async create(createCommentBody: CreateCommentV1Dto): Promise<Comment> {
-    const createdComment = new this.commentModel(createCommentBody);
+    const createdComment = new this.commentModel({
+      ...createCommentBody,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
 
     return createdComment.save();
   }
@@ -42,7 +46,7 @@ export class CommentsService {
 
     return this.commentModel.findOneAndUpdate(
       { _id, userId },
-      updateCommentBody,
+      { ...updateCommentBody, updatedAt: new Date() },
       {
         new: true,
       },

@@ -5,7 +5,12 @@ export type UserDocument = HydratedDocument<User>;
 
 @Schema()
 export class User {
-  @Prop({ type: MongooseSchema.Types.ObjectId, required: true })
+  @Prop({
+    type: MongooseSchema.Types.ObjectId,
+    required: true,
+    index: true,
+    auto: true,
+  })
   _id: MongooseSchema.Types.ObjectId;
 
   @Prop({ required: true })

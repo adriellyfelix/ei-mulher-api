@@ -1,5 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
+  IsArray,
   IsEmail,
   IsNotEmpty,
   IsPhoneNumber,
@@ -7,7 +8,6 @@ import {
   Matches,
   MaxLength,
   MinLength,
-  ValidateNested,
 } from 'class-validator';
 import { Match } from 'src/validation/match.decorator';
 import { LinkV1Dto } from './link.dto';
@@ -52,7 +52,7 @@ export class CreateUserV1Dto {
   @ApiPropertyOptional({ description: 'User description' })
   description: string;
 
-  @ValidateNested()
+  @IsArray()
   @ApiPropertyOptional({ description: 'User links', type: [LinkV1Dto] })
   links: LinkV1Dto[];
 }

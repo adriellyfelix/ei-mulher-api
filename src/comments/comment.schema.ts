@@ -5,7 +5,12 @@ export type CommentDocument = HydratedDocument<Comment>;
 
 @Schema()
 export class Comment {
-  @Prop({ type: MongooseSchema.Types.ObjectId, required: true })
+  @Prop({
+    type: MongooseSchema.Types.ObjectId,
+    required: true,
+    index: true,
+    auto: true,
+  })
   _id: MongooseSchema.Types.ObjectId;
 
   @Prop({ type: MongooseSchema.Types.ObjectId, required: true, ref: 'User' })

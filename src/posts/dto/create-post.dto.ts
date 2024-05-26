@@ -5,8 +5,4 @@ export class CreatePostV1Dto {
   @IsString()
   @ApiProperty({ description: 'Post content' })
   content: string;
-
-  @IsString()
-  @ApiProperty({ description: 'Post author' })
-  userId: string;
 }

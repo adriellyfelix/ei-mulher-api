@@ -25,7 +25,11 @@ export class LikesService {
       return likeExists;
     }
 
-    const createdLike = new this.likeModel({ userId, commentId });
+    const createdLike = new this.likeModel({
+      userId,
+      commentId,
+      createdAt: new Date(),
+    });
 
     return createdLike.save();
   }
@@ -37,7 +41,11 @@ export class LikesService {
       return likeExists;
     }
 
-    const createdLike = new this.likeModel({ userId, postId });
+    const createdLike = new this.likeModel({
+      userId,
+      postId,
+      createdAt: new Date(),
+    });
 
     return createdLike.save();
   }
