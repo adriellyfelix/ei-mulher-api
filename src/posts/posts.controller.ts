@@ -15,6 +15,7 @@ import {
   ApiBearerAuth,
   ApiBody,
   ApiCreatedResponse,
+  ApiParam,
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
@@ -71,6 +72,12 @@ export class PostsController {
   @ApiBadRequestResponse({
     description: 'When validation fails',
   })
+  @ApiParam({
+    name: 'id',
+    type: String,
+    description: 'Post id',
+    required: true,
+  })
   async update(
     @Body() updatePostBody: UpdatePostV1Dto,
     @Req() request: Request,
@@ -87,6 +94,12 @@ export class PostsController {
   })
   @ApiBadRequestResponse({
     description: 'When validation fails or post does not exists',
+  })
+  @ApiParam({
+    name: 'id',
+    type: String,
+    description: 'Post id',
+    required: true,
   })
   async delete(@Param() params: PostIdParamsV1Dto, @Req() request: Request) {
     const userId = request['user']['sub'];

@@ -11,12 +11,10 @@ import { LikesService } from './likes.service';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
-  ApiBody,
   ApiCreatedResponse,
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
-import { CreateLikeV1Dto } from './dto/create-like.dto';
 import { LikeResponseV1Dto } from './dto/like-response.dto';
 import { CommentIdParamsV1Dto } from 'src/comments/dto/comment-id-param.dto';
 import { LikeIdParamsV1Dto } from './dto/like-id-param.dto';
@@ -62,7 +60,6 @@ export class LikesController {
 
   @Post('/comment/:id')
   @HttpCode(201)
-  @ApiBody({ type: CreateLikeV1Dto })
   @ApiCreatedResponse({
     description: 'When like is created as successfully',
     type: LikeResponseV1Dto,
@@ -86,7 +83,6 @@ export class LikesController {
 
   @Post('/post/:id')
   @HttpCode(201)
-  @ApiBody({ type: CreateLikeV1Dto })
   @ApiCreatedResponse({
     description: 'When like is created as successfully',
     type: LikeResponseV1Dto,
@@ -124,6 +120,6 @@ export class LikesController {
   })
   async delete(@Param() params: LikeIdParamsV1Dto, @Req() request: Request) {
     const userId = request['user']['sub'];
-    return this.likesService.deleteLike(params.id, userId);
+    return this.likesService.deleteLike(userId, params.id);
   }
 }

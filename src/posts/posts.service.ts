@@ -50,8 +50,8 @@ export class PostsService {
     }
 
     return this.postModel.findOneAndUpdate(
-      { _id, userId, updatedAt: new Date() },
-      updatePostBody,
+      { _id, userId },
+      { ...updatePostBody, updatedAt: new Date() },
       {
         new: true,
       },

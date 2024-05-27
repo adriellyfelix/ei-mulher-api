@@ -62,8 +62,12 @@ export class CommentsController {
   @ApiBadRequestResponse({
     description: 'When validation fails',
   })
-  async create(@Body() createCommentBody: CreateCommentV1Dto) {
-    return this.commentsService.create(createCommentBody);
+  async create(
+    @Body() createCommentBody: CreateCommentV1Dto,
+    @Req() request: Request,
+  ) {
+    const userId = request['user']['sub'];
+    return this.commentsService.create(createCommentBody, userId);
   }
 
   @Put(':id')

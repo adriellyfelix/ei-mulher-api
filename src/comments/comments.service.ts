@@ -23,9 +23,13 @@ export class CommentsService {
       .skip(skip);
   }
 
-  async create(createCommentBody: CreateCommentV1Dto): Promise<Comment> {
+  async create(
+    createCommentBody: CreateCommentV1Dto,
+    userId: string,
+  ): Promise<Comment> {
     const createdComment = new this.commentModel({
       ...createCommentBody,
+      userId,
       createdAt: new Date(),
       updatedAt: new Date(),
     });

@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Like } from './like.schema';
 import { Model } from 'mongoose';
@@ -50,16 +50,10 @@ export class LikesService {
     return createdLike.save();
   }
 
-  async deleteLike(userId: string, id: string): Promise<Like> {
-    const likeExists = await this.findLike(userId, id);
-
-    if (!likeExists) {
-      throw new BadRequestException('Like not found');
-    }
-
+  async deleteLike(userId: string, _id: string): Promise<Like> {
     return this.likeModel.findOneAndDelete({
       userId,
-      $or: [{ postId: id }, { commentId: id }],
+      _id,
     });
   }
 }

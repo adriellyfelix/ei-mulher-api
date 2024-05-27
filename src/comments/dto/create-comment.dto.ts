@@ -9,8 +9,4 @@ export class CreateCommentV1Dto {
   @IsString()
   @ApiProperty({ description: 'Comment post id' })
   postId: string;
-
-  @IsString()
-  @ApiProperty({ description: 'Comment author' })
-  userId: string;
 }
